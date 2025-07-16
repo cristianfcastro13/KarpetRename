@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QLabel, QMessageBox, QApplication, QFileDialog
 from PySide6.QtGui import QWindow, QAction, QIcon, QPixmap
-from PySide6.QtCore import QSize, Qt
-import time
+from PySide6.QtCore import QSize, Qt, Signal, Slot
+from main import rename_files
 
 class Widgets(QWidget):
     def __init__(self):
@@ -110,23 +110,28 @@ class Widgets(QWidget):
         self.suffix_label.setFixedWidth(48)
         self.updated_labels_layout.addWidget(self.suffix_label)
 
-    # FIXME: NEEDS TO BE CONNECTED TO MAIN LOGIC
+    # FIXME: self.selected_folder_label NEEDS TO BE CONNECTED TO MAIN LOGIC
     def navigation_layout(self):
         # Set navigation layout
         self.navigation_v_layout = QVBoxLayout()
+        self.navigation_v_layout.setAlignment(Qt.AlignCenter)
 
         # Add text label for navigation
         navigation_label = QLabel("You are renaming all files in:")
         navigation_label.setAlignment(Qt.AlignCenter)
         self.navigation_v_layout.addWidget(navigation_label)
 
-        
-        # TODO: Add browser navigation
+        # Add text label that reflects selected folder
+        self.selected_folder_label = QLabel("Folder Path")
+        self.selected_folder_label.setAlignment(Qt.AlignCenter)
+        self.selected_folder_label.setFixedWidth(220)
+        self.navigation_v_layout.addWidget(self.selected_folder_label)
 
     # FIXME: NEEDS TO BE CONNECTED TO MAIN LOGIC
     def prefix_suffix_layout(self):
         # Set prefix / suffix layout
         self.prefix_suffix_h_layout = QHBoxLayout()
+        self.prefix_suffix_h_layout.setAlignment(Qt.AlignCenter)
 
         # Prefix entry
         self.prefix_entry = QLineEdit()
@@ -145,6 +150,9 @@ class Widgets(QWidget):
         # Set 'Rename' button
         self.button_rename = QPushButton("Rename")
         #button_rename.clicked.connect(self.rename_files)
+
+    def on_rename_clicked(self):
+        
 
     def update_prefix_label(self, new_text):
         self.prefix_label.setText(f"{new_text}")
