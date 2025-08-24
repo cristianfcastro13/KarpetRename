@@ -39,12 +39,3 @@ def rename_files(directory, prefix, suffix, dryrun):
                 file_count += 1
         else:
             print(f"Skipping {filename} since it's a directory.")
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('destination', help='This is the folder in which the items will be renamed.')
-    parser.add_argument('--prefix', default='', help='This is the prefix (string) to the ordered number in each item renamed')
-    parser.add_argument('--suffix', default='', help='This is the suffix (string) to the ordered number in each item renamed')
-    parser.add_argument('--dryrun', action='store_true')
-    args = parser.parse_args()
-    rename_files(args.destination, args.prefix, args.suffix, args.dryrun)

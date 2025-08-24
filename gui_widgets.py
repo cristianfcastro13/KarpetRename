@@ -2,9 +2,17 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QL
 from PySide6.QtGui import QWindow, QAction, QIcon, QPixmap
 from PySide6.QtCore import QSize, Qt, Signal, Slot
 from main import rename_files
+import os
 
 class Widgets(QWidget):
-    def __init__(self):
+    def __init__(self, initial_directory=None):
+        self.current_directory = initial_directory
+        # if initial_directory:
+        #     self.current_directory = initial_directory
+        # else:
+        #     self.current_directory.
+        
+        """Initialize the main window and its components."""
         super().__init__()
         self.setup_window()
         self.live_updated_labels()
@@ -38,7 +46,7 @@ class Widgets(QWidget):
         main_v_layout.addLayout(self.preview_h_layout)
         main_v_layout.addLayout(self.navigation_v_layout)
         main_v_layout.addLayout(self.prefix_suffix_h_layout)
-        main_v_layout.addWidget(self.button_rename)
+        main_v_layout.addWidget(self.rename_button)
         self.setLayout(main_v_layout)
 
     # NOTE: COMPLETED, NO NEED TO CONNECT TO ANYTHING
@@ -127,6 +135,11 @@ class Widgets(QWidget):
         self.selected_folder_label.setFixedWidth(220)
         self.navigation_v_layout.addWidget(self.selected_folder_label)
 
+        browse_button = QPushButton("Browse...")
+        browse_button.clicked.connect(self.browse_directory)
+        self.navigation_v_layout.addWidget(browse_button)
+
+
     # FIXME: NEEDS TO BE CONNECTED TO MAIN LOGIC
     def prefix_suffix_layout(self):
         # Set prefix / suffix layout
@@ -145,14 +158,39 @@ class Widgets(QWidget):
         self.suffix_entry.textChanged.connect(self.update_suffix_label)
         self.prefix_suffix_h_layout.addWidget(self.suffix_entry)
 
-    # FIXME: NEEDS TO BE CONNECTED TO MAIN LOGIC
     def button_rename(self):
         # Set 'Rename' button
-        self.button_rename = QPushButton("Rename")
-        #button_rename.clicked.connect(self.rename_files)
+        self.rename_button = QPushButton("Rename")
+        self.rename_button.clicked.connect(self.on_rename_clicked)
 
     def on_rename_clicked(self):
+
+        folder = self.current_directory
+        # Get the prefix and suffix from the input fields
+        prefix = self.prefix_entry.text()
+        suffix = self.suffix_entry.text()
+
+        is_dry_run = False
+
+        # To avoid running the rename_files function with an empty folder
+        if not folder:
+            QMessageBox.warning(self, "Warning", "Please select a folder to rename files.")
+            return
         
+        # Call the rename_files function with the provided parameters
+        try:
+            rename_files(directory=folder, prefix=prefix, suffix=suffix, dryrun=is_dry_run)
+            QMessageBox.information(self, "Success", "Files have been renamed successfully!")
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"An error occurred while renaming files:\n{str(e)}")
+
+
+    def browse_directory(self):
+        directory = QFileDialog.getExistingDirectory(self, "Select Folder")
+        if directory:
+            self.current_directory = directory
+            self.selected_folder_label.setText(directory)
+            
 
     def update_prefix_label(self, new_text):
         self.prefix_label.setText(f"{new_text}")

@@ -8,6 +8,11 @@ from gui_widgets import Widgets
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = Widgets()
+    initial_directory = None
+    if len(sys.argv) > 1:
+        initial_directory = sys.argv[1]
+
+    window = Widgets(initial_directory=initial_directory)
     window.show()
+    
     app.exec()
