@@ -118,7 +118,6 @@ class Widgets(QWidget):
         self.suffix_label.setFixedWidth(48)
         self.updated_labels_layout.addWidget(self.suffix_label)
 
-    # FIXME: self.selected_folder_label NEEDS TO BE CONNECTED TO MAIN LOGIC
     def navigation_layout(self):
         # Set navigation layout
         self.navigation_v_layout = QVBoxLayout()
@@ -139,8 +138,6 @@ class Widgets(QWidget):
         browse_button.clicked.connect(self.browse_directory)
         self.navigation_v_layout.addWidget(browse_button)
 
-
-    # FIXME: NEEDS TO BE CONNECTED TO MAIN LOGIC
     def prefix_suffix_layout(self):
         # Set prefix / suffix layout
         self.prefix_suffix_h_layout = QHBoxLayout()
@@ -184,14 +181,12 @@ class Widgets(QWidget):
         except Exception as e:
             QMessageBox.critical(self, "Error", f"An error occurred while renaming files:\n{str(e)}")
 
-
     def browse_directory(self):
         directory = QFileDialog.getExistingDirectory(self, "Select Folder")
         if directory:
             self.current_directory = directory
             self.selected_folder_label.setText(directory)
-            
-
+    
     def update_prefix_label(self, new_text):
         self.prefix_label.setText(f"{new_text}")
 

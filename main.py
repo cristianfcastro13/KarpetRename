@@ -1,5 +1,5 @@
 import os
-import argparse
+import argparse #Here in case I come back to using this
 
 # Renames files in a sequential numerical order starting from 1
 def rename_files(directory, prefix, suffix, dryrun):
@@ -23,6 +23,7 @@ def rename_files(directory, prefix, suffix, dryrun):
             _, extension = os.path.splitext(filename)
             new_name = f"{prefix}{file_count}{suffix}{extension}"
             new_destination = os.path.join(directory, new_name)
+            
 
             if not dryrun:
                 try:

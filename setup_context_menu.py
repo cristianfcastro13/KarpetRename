@@ -1,0 +1,25 @@
+import os
+import winreg as reg
+
+#Gets the full path to the executable
+current_dir = os.path.dirname(os.path.realpath(__file__))
+exe_path = os.path.join(current_dir, 'dist', 'gui_main.exe')
+
+#The key in the registry where folder context menus are defined
+key_path = r'Directory\\Background\\shell\\KarpetRename'
+
+key = reg.CreateKey(reg.HKEY_CLASSES_ROOT, key_path) #Creates the main key
+reg.SetValue(key, '', reg.REG_SZ, 'Karpet Rename') #Sets the default value ('') the text that appears in the context menu
+reg.SetValueEx(key, 'Icon', 0, reg.REG_SZ, f'"{exe_path}",0') #Sets the icon for the context menu voice and links to the main executable
+
+#Creates the 'command' subkey within the main key
+command_key = reg.CreateKey(key, 'command') #'Key that runs the main script with the target directory as an argument
+reg.SetValue(command_key, '', reg.REG_SZ, f'"{exe_path}" "%V"')#"%V" is a special Windows variable that gets replaced with the current folder path
+
+#Good practice to close the keys when done
+reg.CloseKey(command_key)
+reg.CloseKey(key)
+
+#TODO: Add error handling for permissions issues and erase these print statements for production deployment
+print(f"Successfully created context menu entry for {exe_path}")
+print("You can now right-click a folder background to use Karpet Rename!")
