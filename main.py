@@ -1,3 +1,4 @@
+from PySide6.QtWidgets import QMessageBox
 import os
 import argparse #Here in case I come back to using this
 
@@ -7,6 +8,7 @@ def rename_files(directory, prefix, suffix, dryrun):
         target_directory_files = os.listdir(directory)
     except:
         print(f"Error: The directory '{directory}' was not found.")
+        QMessageBox.critical(None, "Error", f"The directory '{directory}' was not found.")
         return
     
     file_count = 1
@@ -31,10 +33,13 @@ def rename_files(directory, prefix, suffix, dryrun):
                     file_count += 1
                 except FileNotFoundError:
                     print(f"Error: The file '{current_item}' was not found.")
+                    QMessageBox.critical(None, "Error", f"The file '{current_item}' was not found.")
                 except PermissionError:
                     print(f"Error: Permission denied. Cannot rename '{current_item}'.")
+                    QMessageBox.critical(None, "Error", f"Permission denied. Cannot rename '{current_item}'. Try to run the program as an administrator.")
                 except Exception as e:
                     print(f"An unexpected error occurred: {e}")
+                    QMessageBox.critical(None, "Error", f"An unexpected error occurred: {e}")
             else:
                 print(new_name)
                 file_count += 1

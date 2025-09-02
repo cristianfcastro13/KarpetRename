@@ -1,5 +1,5 @@
 import sys
-from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import QApplication, QMessageBox
 from gui_widgets import Widgets
 
 if __name__ == "__main__":

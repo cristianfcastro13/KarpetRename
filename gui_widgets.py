@@ -2,17 +2,24 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QL
 from PySide6.QtGui import QWindow, QAction, QIcon, QPixmap
 from PySide6.QtCore import QSize, Qt, Signal, Slot
 from main import rename_files
+import sys
 import os
 
+def resource_path(relative_path):
+    # Gets absolute path to resource, works for dev and for PyInstaller
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 class Widgets(QWidget):
-    def __init__(self, initial_directory=None):
+    def __init__(self, initial_directory):
         self.current_directory = initial_directory
-        # if initial_directory:
-        #     self.current_directory = initial_directory
-        # else:
-        #     self.current_directory.
-        
-        """Initialize the main window and its components."""
+
+        #Initializes the main window and its components
         super().__init__()
         self.setup_window()
         self.live_updated_labels()
@@ -36,9 +43,9 @@ class Widgets(QWidget):
         self.setWindowTitle("Karpet Rename")
         self.setGeometry(spawn_point_x, spawn_point_y, window_width, window_height)
         self.setFixedSize(self.size())
-        self.setWindowIcon(QIcon("images/123.png"))
+        self.setWindowIcon(QIcon(resource_path("images/123.png")))
 
-    # NOTE: COMPLETED, NO NEED TO CONNECT TO ANYTHING
+    
     def main_layout(self):
         # Set main layout
         main_v_layout = QVBoxLayout()
@@ -49,7 +56,6 @@ class Widgets(QWidget):
         main_v_layout.addWidget(self.rename_button)
         self.setLayout(main_v_layout)
 
-    # NOTE: COMPLETED, NO NEED TO CONNECT TO ANYTHING
     def preview_layout(self):
         # Set preview layout
         self.preview_h_layout = QHBoxLayout()
@@ -58,20 +64,19 @@ class Widgets(QWidget):
         self.preview_h_layout.addLayout(self.before_file_v_layout)
 
         right_arrow_label = QLabel()
-        right_arrow_label.setPixmap(QPixmap("images/right_arrow.png").scaled(45, 45, Qt.KeepAspectRatio))
+        right_arrow_label.setPixmap(QPixmap(resource_path("images/right_arrow.png")).scaled(45, 45, Qt.KeepAspectRatio))
         right_arrow_label.setAlignment(Qt.AlignCenter)
         self.preview_h_layout.addWidget(right_arrow_label)
 
         self.preview_h_layout.addLayout(self.after_file_v_layout)
-
-    # NOTE: COMPLETED, NO NEED TO CONNECT TO ANYTHING
+    
     def before_file_layout(self):
         # Set 'before' file layout
         self.before_file_v_layout = QVBoxLayout()
         self.before_file_v_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
 
         before_file_pic_label = QLabel()
-        before_file_pic_label.setPixmap(QPixmap("images/file_icon.png").scaled(92, 92, Qt.KeepAspectRatio))
+        before_file_pic_label.setPixmap(QPixmap(resource_path("images/file_icon.png")).scaled(92, 92, Qt.KeepAspectRatio))
         before_file_pic_label.setAlignment(Qt.AlignCenter)
         self.before_file_v_layout.addWidget(before_file_pic_label)
 
@@ -80,21 +85,19 @@ class Widgets(QWidget):
         default_file_label.setAlignment(Qt.AlignCenter)
         default_file_label.setFixedWidth(100)
         self.before_file_v_layout.addWidget(default_file_label)
-
-    # NOTE: COMPLETED, NO NEED TO CONNECT TO ANYTHING
+    
     def after_file_layout(self):
         # Set 'after' file layout
         self.after_file_v_layout = QVBoxLayout()
         self.after_file_v_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
 
         after_file_pic_label = QLabel()
-        after_file_pic_label.setPixmap(QPixmap("images/file_icon.png").scaled(92, 92, Qt.KeepAspectRatio))
+        after_file_pic_label.setPixmap(QPixmap(resource_path("images/file_icon.png")).scaled(92, 92, Qt.KeepAspectRatio))
         after_file_pic_label.setAlignment(Qt.AlignCenter)
         self.after_file_v_layout.addWidget(after_file_pic_label)
 
         self.after_file_v_layout.addLayout(self.updated_labels_layout)
 
-    # NOTE: COMPLETED, NO NEED TO CONNECT TO ANYTHING
     def live_updated_labels(self):
         # Live-updated labels for after file layout
         self.updated_labels_layout = QHBoxLayout()
@@ -129,10 +132,16 @@ class Widgets(QWidget):
         self.navigation_v_layout.addWidget(navigation_label)
 
         # Add text label that reflects selected folder
-        self.selected_folder_label = QLabel("Folder Path")
-        self.selected_folder_label.setAlignment(Qt.AlignCenter)
-        self.selected_folder_label.setFixedWidth(220)
-        self.navigation_v_layout.addWidget(self.selected_folder_label)
+        if not self.current_directory:
+            self.selected_folder_label = QLabel("Folder Path")
+            self.selected_folder_label.setAlignment(Qt.AlignCenter)
+            self.selected_folder_label.setFixedWidth(220)
+            self.navigation_v_layout.addWidget(self.selected_folder_label)
+        else:
+            self.selected_folder_label = QLabel(self.current_directory)
+            self.selected_folder_label.setAlignment(Qt.AlignCenter)
+            self.selected_folder_label.setFixedWidth(220)
+            self.navigation_v_layout.addWidget(self.selected_folder_label)
 
         browse_button = QPushButton("Browse...")
         browse_button.clicked.connect(self.browse_directory)
