@@ -8,7 +8,6 @@ if __name__ == "__main__":
     initial_directory = None
     if len(sys.argv) > 1:
         initial_directory = sys.argv[1]
-        
 
 
         # TODO: Remove these debugging lines later
