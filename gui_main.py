@@ -1,6 +1,7 @@
 import sys
 from PySide6.QtWidgets import QApplication, QMessageBox
 from gui_widgets import Widgets
+from main import rename_files
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
@@ -8,12 +9,21 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         initial_directory = sys.argv[1]
 
-    #TODO: Add code to call setup_context_menu.py if the code is called though the right click context menu
 
-    #TODO: THIS 
-    #I'm guessing this is where I interrupt the program before it opens the GUI and directly call rename_files form main.py
-    #Probably need a try except block within an if statement to check if the program was called with the 'fast' arguments within the context menu
-    window = Widgets(initial_directory=initial_directory)  #This within the try except block?
-    window.show() #This within the try except block?
+        # TODO: Remove these debugging lines later
+        # QMessageBox.information(None, "Info", f"The first argument is: {sys.argv[1]}")
+        # if len(sys.argv) > 2:
+        #     QMessageBox.information(None, "Info", f"The second argument is: {sys.argv[2]}") #Debugging line to show the second argument passed in from the context menu
+        # if len(sys.argv) > 3:
+        #     QMessageBox.information(None, "Info", f"The third argument is: {sys.argv[3]}")
+
+    if (len(sys.argv) > 2):
+        if (sys.argv[2] == "fast"):
+            # Call the rename_files function directly with default prefix and suffix
+            rename_files(directory=initial_directory, prefix="", suffix="")
+            sys.exit(0)  # Exit the program after renaming files
+
+    window = Widgets(initial_directory=initial_directory)
+    window.show()
     
     app.exec()

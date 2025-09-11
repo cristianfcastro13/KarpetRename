@@ -176,8 +176,6 @@ class Widgets(QWidget):
         prefix = self.prefix_entry.text()
         suffix = self.suffix_entry.text()
 
-        is_dry_run = False
-
         # To avoid running the rename_files function with an empty folder
         if not folder:
             QMessageBox.warning(self, "Warning", "Please select a folder to rename files.")
@@ -185,7 +183,7 @@ class Widgets(QWidget):
         
         # Call the rename_files function with the provided parameters
         try:
-            rename_files(directory=folder, prefix=prefix, suffix=suffix, dryrun=is_dry_run)
+            rename_files(directory=folder, prefix=prefix, suffix=suffix)
             QMessageBox.information(self, "Success", "Files have been renamed successfully!")
         except Exception as e:
             QMessageBox.critical(self, "Error", f"An error occurred while renaming files:\n{str(e)}")
