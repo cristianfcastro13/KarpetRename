@@ -6,7 +6,6 @@ import winreg as reg
 current_dir = os.path.dirname(os.path.realpath(__file__))
 exe_path = os.path.join(current_dir, 'dist', 'gui_main.exe')
 
-
 try:
     '''Advanced context menu entry that opens the GUI and allows for prefix/suffix customization'''
     advanced_key_path = r'Directory\\Background\\shell\\AdvancedKarpetRename' #The key in the registry where folder context menus are defined
