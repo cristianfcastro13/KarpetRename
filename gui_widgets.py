@@ -6,7 +6,8 @@ import sys
 import os
 
 def resource_path(relative_path):
-    # Gets absolute path to resource, works for dev and for PyInstaller
+
+    # Gets absolute path to resource, necessary codes for dev and for PyInstaller
     try:
         # PyInstaller creates a temp folder and stores path in _MEIPASS
         base_path = sys._MEIPASS
@@ -45,7 +46,6 @@ class Widgets(QWidget):
         self.setFixedSize(self.size())
         self.setWindowIcon(QIcon(resource_path("images/123.png")))
 
-    
     def main_layout(self):
         # Set main layout
         main_v_layout = QVBoxLayout()
