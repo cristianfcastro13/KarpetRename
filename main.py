@@ -12,7 +12,6 @@ def rename_files(directory, prefix, suffix):
     
     file_count = 1
 
-
     for filename in target_directory_files:
         current_item = os.path.join(directory, filename)
         if os.path.isfile(current_item):
