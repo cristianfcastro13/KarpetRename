@@ -9,9 +9,7 @@ def rename_files(directory, prefix, suffix):
     except:
         QMessageBox.critical(None, "Error", f"The directory '{directory}' was not found.")
         return
-    
     file_count = 1
-
     for filename in target_directory_files:
         current_item = os.path.join(directory, filename)
         if os.path.isfile(current_item):
