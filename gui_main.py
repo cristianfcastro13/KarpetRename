@@ -14,7 +14,7 @@ if __name__ == "__main__":
         # If the program was as 'Simple Karpet Rename' context menu entry, it will pass "fast" as a second argument and skip the GUI
         if (len(sys.argv) > 2):
             if (sys.argv[2] == "fast"):
-                # Call the rename_files function directly with default prefix and suffix
+                # Call the rename_files function directly with default(empty) prefix and suffix
                 rename_files(directory=initial_directory, prefix="", suffix="")
                 sys.exit(0)  # Exit the program after renaming files
 
