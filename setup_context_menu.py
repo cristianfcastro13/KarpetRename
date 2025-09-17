@@ -28,7 +28,7 @@ except Exception as e:
     QMessageBox.critical(None, "Error", f"Failed to create ADVANCED context menu entry: {e} \n Try running the program as an administrator.")
 
 try:
-    '''Fast context menu entry setup that skips the GUI and uses default prefix/suffix(empty) to rename files immediately'''
+    '''FAST context menu entry setup that skips the GUI and uses default prefix/suffix(empty) to rename files immediately'''
     simple_key_path = r'Directory\\Background\\shell\\KarpetRenameFast' #The key in the registry where folder context menus are defined
     key = reg.CreateKey(reg.HKEY_CLASSES_ROOT, simple_key_path) #Creates the main key
     reg.SetValue(key, '', reg.REG_SZ, 'Karpet Rename FAST') #Sets the default value ('') the text that appears in the context menu
