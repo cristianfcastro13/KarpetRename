@@ -1,6 +1,6 @@
 Karpet_Rename_V1.0_Beta/
 installContextMenu/
-unistallContextMenu/
+uninstallContextMenu/
 dist/
 build/
 *.spec
