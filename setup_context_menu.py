@@ -1,4 +1,3 @@
-from PySide6.QtWidgets import QMessageBox
 import os
 import winreg as reg
 
@@ -24,8 +23,7 @@ try:
     print(f"Successfully created Advanced context menu entry for {exe_path}")
     print("You can now right-click a folder background to use Karpet Rename Advanced!")
 except Exception as e:
-    print(f"Failed to create Advanced context menu entry: {e}")
-    QMessageBox.critical(None, "Error", f"Failed to create ADVANCED context menu entry: {e} \n Try running the program as an administrator.")
+    print(f"Failed to create Advanced context menu entry: {e} \n Try running the program as an administrator.")
 
 try:
     '''FAST context menu entry setup that skips the GUI and uses default prefix/suffix(empty) to rename files immediately'''
@@ -45,5 +43,4 @@ try:
     print(f"Successfully created Fast context menu entry for {exe_path}")
     print("You can now right-click a folder background to use Karpet Rename Fast!")
 except Exception as e:
-    print(f"Failed to create SIMPLE context menu entry: {e}")
-    QMessageBox.critical(None, "Error", f"Failed to create SIMPLE context menu entry: {e} \n Try running the program as an administrator.")
+    print(f"Failed to create SIMPLE context menu entry: {e} \n Try running the program as an administrator.")
